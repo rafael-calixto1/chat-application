@@ -24,12 +24,13 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package -f backend/pom.xml --update-snapshots
 
-      - name: Build & push Docker image
-        uses: mr-smithers-excellent/docker-build-push@v6
-        with:
-          image: repo/image
-          tags: v1, latest
-          registry: registry-url.io
-          dockerfile: backend/Dockerfile.ci  # Ensure correct Dockerfile path
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t repo/image:v1 -t repo/image:latest -f backend/Dockerfile.ci .
+
+      - name: Push Docker image
+        run: |
+          docker push repo/image:v1
+          docker push repo/image:latest

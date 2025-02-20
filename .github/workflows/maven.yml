@@ -24,11 +24,6 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package -f backend/pom.xml --update-snapshots
 
-      - name: Update dependency graph
-        uses: advanced-security/maven-dependency-submission-action@v4
-        with:
-          working-directory: backend
-
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
         with:

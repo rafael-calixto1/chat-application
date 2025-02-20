@@ -1,14 +1,14 @@
-# Usa a imagem base do OpenJDK 17
+# Utilize a imagem base com JDK 17
 FROM openjdk:17-jdk-slim
 
-# Define o diretório de trabalho
+# Defina o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copia o JAR gerado pelo Maven
-COPY target/*.jar app.jar
+# Copie o JAR gerado pelo Maven para o container
+COPY backend/target/*.jar app.jar
 
-# Expõe a porta usada pela aplicação
+# Exponha a porta usada pela aplicação
 EXPOSE 8080
 
-# Comando para executar a aplicação
+# Defina o comando para rodar o JAR
 ENTRYPOINT ["java", "-jar", "app.jar"]
